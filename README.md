@@ -7,11 +7,21 @@
 
 ## Scans: 
  São disponibilizados 3 scans distintos dentro do github marketplace do OWASP, sendo estes: 
- - Baseline Scan: Utilizado para varrer aplicações WEB e procurar vulnerabilidades sem realizar ataques de forma ativa.
- 
- - API Scan: Ferramenta de DAST para realizar scans ativos em APIs. Os formatos aceitos são openapi, soap ou graphql, por padrão a ferramenta assuma formato openapi.
+ ### Baseline Scan: 
+  Utilizado para varrer aplicações WEB e procurar vulnerabilidades sem realizar ataques de forma ativa.
 
- - Full Scan: Utiliza O ZAP spider e opcionalmente um crawler AJAX e um scan completo contra a aplicação, explorando ativamente possíveis vetores de ataque e gerando issues dentro do repositório.
+  - Roda o crawler do ZAP contra o alvo por padrão durante um minuto e em seguida um scan passivo. A duração do crawler pode ser reconfigurada.  
+  
+  - Por padrão, reporta todos alertas como warnings 
+  
+  
+  - Esse script é pensado para ambientes de CI/CD. Porém é preciso se atentar ao viés do scan. 
+  
+ ### API Scan: 
+  Ferramenta de DAST para realizar scans ativos em APIs. Os formatos aceitos são openapi, soap ou graphql, por padrão a ferramenta assuma formato openapi.
+
+ ### Full Scan: 
+ Utiliza O ZAP spider e opcionalmente um crawler AJAX e um scan completo contra a aplicação, explorando ativamente possíveis vetores de ataque e gerando issues dentro do repositório.
 
  A integração com o github actions permite que os scans sejam reportados e gerenciados através de issues dentro do repositório do projeto, gerando e eliminando-as conforme são resolvidas. 
 
@@ -21,12 +31,7 @@
 
  A automação de scans através do github actions se dá através de um arquivo yaml, que fica dentro da pasta .git e dita o workflow do processo. Através dele pode-se configurar os triggers para o scan, o target, e outras configurações pertinentes. Esta ferramenta pode ser configurada para repositórios públicos ou privados.
  
-  Para mais referência sobre, acesse:
  
-  Workflows do CI/CD:   https://github.com/mercadobitcoin/CI_CI_appsec (não tenho acesso, tem que pedir)
-
- 
-
 
   
 

@@ -19,3 +19,11 @@ jobs:
         with:
           # Target URL
           target: "https://brokencrystals.com"
+      
+      - name: ZAP API Scan
+        uses: zaproxy/action-api-scan@v0.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          docker_name: 'owasp/zap2docker-stable'
+          format: openapi
+          target: "https://brokencrystals.com/swagger/json"
