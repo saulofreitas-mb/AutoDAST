@@ -1,0 +1,12 @@
+
+DAST_scan_creds:
+  remote_user_name : ''
+  website_url: ''
+  apt_gpg_key: ''
+  apt_repo_data: ''
+  reports_location: ''
+  scan_name: ''
+  owasp_zap_image_name: ''
+  scan_output: ''
+  
+  

@@ -1,0 +1,118 @@
+config_variables_file_path: uncommitted/config_variables.yml
+#installs docker, builds a ZAP container and runs the baseline scan against 
+#the specified target
+name: CI
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: installing docker on ubuntu
+      hosts: zap
+      remote_user: "${ remote_user_name }"
+      gather_facts: no
+      become: yes
+      vars:
+        remote_user_name: ubuntu
+        apt_repo_data: "deb [arch=amd64]
+        https://download.docker.com/linux/ubuntu xenial stable"
+        apt_gpg_key: https://download.docker.com/linux/ubuntu/gpg
+      tasks:
+        - name: adding docker gpg key
+          apt_key:
+            url: "${ apt_gpg_key }"
+            state: present
+        - name: add docker repository
+          apt_repository:
+            repo: "${ apt_repo_data }"
+            state: present
+        - name: installing docker-ce
+          apt:
+            name: docker-ce
+            state: present
+            update_cache: yes
+        - name: install python-pip
+          apt:
+            name: python-pip
+            state: present    
+        - name: install docker-py
+          pip:
+            name: "${ item }"
+            state: present    
+          with_items:
+            - docker-py
+
+        - name: setting up owasp zap container
+            hosts: zap
+            remote_user: "${ remote_user_name }"
+            gather_facts: no
+            become: yes
+            vars:
+            remote_user_name: ubuntu 
+            owasp_zap_image_name: owasp/zap2docker-weekly 
+        tasks:
+          - name: pulling ${ owasp_zap_image_name } container
+          docker_image:
+            name: "${ owasp_zap_image_name }"
+          - name: running owasp zap container
+            docker_container:
+              name: owasp-zap
+              image: "${ owasp_zap_image_name }"
+              interactive: yes
+              state: started
+              user: zap
+              command: zap.sh -daemon -host 0.0.0.0 -port 8090 -config
+api.disablekey=true -config api.addrs.addr.name=.* -config
+api.addrs.addr.regex=true
+              ports:
+                - "8090:8090"    
+
+
+          - name: Running OWASP ZAP Baseline Scan
+            hosts: zap
+            remote_user: "${ remote_user_name }"
+            gather_facts: no
+            become: yes
+            vars:
+            remote_user_name: ubuntu
+            owasp_zap_image_name: owasp/zap2docker-weekly
+            website_url: ${ website_url }
+            reports_location: /zapdata/
+            scan_name: owasp-zap-base-line-scan-dvws     
+
+            tasks:
+              - name: adding write permissions to reports directory
+                file:
+                  path: "${ reports_location }"
+                  state: directory
+                  owner: root
+                  group: root
+                  recurse: yes
+                  mode: 0770
+
+              - name: running owasp zap baseline scan container against "{{website_url }}"
+                docker_container:
+                name: "${ scan_name }"
+                image: "${ owasp_zap_image_name }"
+                interactive: yes
+                auto_remove: yes
+                state: started
+                volumes: "${ reports_location }:/zap/wrk:rw"
+                command: "zap-baseline.py -t ${ website_url } -r ${ scan_name}_report.html"    
+
+              - name: getting raw output of the scan
+                command: "docker logs -f ${ scan_name }"
+                register: scan_output  
+
+              - debug:
+                msg: "${ scan_output }"  
