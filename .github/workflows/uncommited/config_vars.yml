@@ -1,7 +1,7 @@
 
 DAST_scan_creds:
   remote_user_name : ''
-  website_url: ''
+  website_url: 'https://brokencrystals.com/'
   apt_gpg_key: ''
   apt_repo_data: ''
   reports_location: ''
