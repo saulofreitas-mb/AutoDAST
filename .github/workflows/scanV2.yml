@@ -1,6 +1,9 @@
 config_variables_file_path: uncommitted/config_variables.yml
 #installs docker, builds a ZAP container and runs the baseline scan against 
 #the specified target
+#need to split jobs and check what and where breaks 
+# 
+
 name: CI
 on:
   push:
@@ -19,7 +22,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: installing docker on ubuntu
       hosts: zap
-      remote_user: "${ remote_user_name }"
+      remote_user: "${{ secrets.REMOTE_USER_NAME }}"
       gather_facts: no
       become: yes
       vars:
@@ -30,11 +33,11 @@ jobs:
       tasks:
         - name: adding docker gpg key
           apt_key:
-            url: "${ apt_gpg_key }"
+            url: "${{ secrets.APT_GPG_KEY }}"
             state: present
         - name: add docker repository
           apt_repository:
-            repo: "${ apt_repo_data }"
+            repo: "${{ secrets.APT_REPO_DATA }}"
             state: present
         - name: installing docker-ce
           apt:
@@ -47,27 +50,27 @@ jobs:
             state: present    
         - name: install docker-py
           pip:
-            name: "${ item }"
+            name: "${{ item }}"
             state: present    
           with_items:
             - docker-py
 
         - name: setting up owasp zap container
             hosts: zap
-            remote_user: "${ remote_user_name }"
+            remote_user: "${{ secrets.REMOTE_USER_NAME }}"
             gather_facts: no
             become: yes
             vars:
             remote_user_name: ubuntu 
             owasp_zap_image_name: owasp/zap2docker-weekly 
         tasks:
-          - name: pulling ${ owasp_zap_image_name } container
+          - name: pulling ${{ secrets.OWASP_ZAP_IMAGE_NAME }} container
           docker_image:
-            name: "${ owasp_zap_image_name }"
+            name: "${{ secrets.OWASP_ZAP_IMAGE_NAME }}"
           - name: running owasp zap container
             docker_container:
               name: owasp-zap
-              image: "${ owasp_zap_image_name }"
+              image: "${{ secrets.OWASP_ZAP_IMAGE_NAME }}"
               interactive: yes
               state: started
               user: zap
@@ -80,39 +83,39 @@ api.addrs.addr.regex=true
 
           - name: Running OWASP ZAP Baseline Scan
             hosts: zap
-            remote_user: "${ remote_user_name }"
+            remote_user: "${{ secrets.REMOTE_USER_NAME }}"
             gather_facts: no
             become: yes
             vars:
             remote_user_name: ubuntu
-            owasp_zap_image_name: owasp/zap2docker-weekly
-            website_url: ${ website_url }
+            owasp_zap_image_name: ${{secrets.OWASP_ZAP_IMAGE_NAME}}
+            website_url: ${{ secrets.WEBSITE_URL }}
             reports_location: /zapdata/
-            scan_name: owasp-zap-base-line-scan-dvws     
+            scan_name: owasp-zap-base-line-scan     
 
             tasks:
               - name: adding write permissions to reports directory
                 file:
-                  path: "${ reports_location }"
+                  path: "${{ reports_location }}"
                   state: directory
                   owner: root
                   group: root
                   recurse: yes
                   mode: 0770
 
-              - name: running owasp zap baseline scan container against "{{website_url }}"
+              - name: running owasp zap baseline scan container against "${{website_url }}"
                 docker_container:
-                name: "${ scan_name }"
-                image: "${ owasp_zap_image_name }"
+                name: "${{ scan_name }}"
+                image: "${{ secrets.OWASP_ZAP_IMAGE_NAME }}"
                 interactive: yes
                 auto_remove: yes
                 state: started
-                volumes: "${ reports_location }:/zap/wrk:rw"
-                command: "zap-baseline.py -t ${ website_url } -r ${ scan_name}_report.html"    
+                volumes: "${{ reports_location }}:/zap/wrk:rw"
+                command: "zap-baseline.py -t ${{ secrets.WEBSITE_URL }} -r ${{ scan_name}}_report.html"    
 
               - name: getting raw output of the scan
-                command: "docker logs -f ${ scan_name }"
+                command: "docker logs -f ${{ scan_name }}"
                 register: scan_output  
 
               - debug:
-                msg: "${ scan_output }"  
+                msg: "${{ scan_output }}"  
