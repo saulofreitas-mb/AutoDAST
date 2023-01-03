@@ -27,13 +27,8 @@
 
  
 
-## Implementação : 
+## Implementação:  
 
  A automação de scans através do github actions se dá através de um arquivo yaml, que fica dentro da pasta .git e dita o workflow do processo. Através dele pode-se configurar os triggers para o scan, o target, e outras configurações pertinentes. Esta ferramenta pode ser configurada para repositórios públicos ou privados.
  
  
-
-  
-
-
-
