@@ -6,7 +6,7 @@ import os
 
 #target url for scan
 
-target = os.environ['TARGET']
+target =  'https://public-firing-range.appspot.com/'     #os.environ['TARGET']
 #apikey = '8ij7v7nl0t6d777okrh4kf3icb'  not necessary because api.disablekey=true
 
 
