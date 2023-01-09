@@ -6,7 +6,7 @@ import os
 
 #target url for scan
 
-target =  'https://public-firing-range.appspot.com/'     #os.environ['TARGET']
+target =  os.environ['TARGET']
 #apikey = '8ij7v7nl0t6d777okrh4kf3icb'  not necessary because api.disablekey=true
 
 
@@ -15,6 +15,12 @@ zap = ZAP(proxies={'http':'http://127.0.0.1:8090','https':'http://127.0.0.1:8090
 
 zap.urlopen(target)
 
+#Spidering the target
+scanID = zap.spider.scan(target)
+while int(zap.spider.status(scanID)) < 100:
+    # Poll the status until it completes
+    print('Spider progress %: {}'.format(zap.spider.status(scanID)))
+    time.sleep(1)
 
 
 #Passive scan
@@ -43,7 +49,7 @@ while int(zap.ascan.status(active_scan_id)) < 100:
 
 print ('Active Scan completo..!')
 
-
+print('\n'.join(map(str, zap.spider.results(scanID))))
 
 # HTML Report
 with open ('report.html', 'w') as f:f.write(zap.core.htmlreport())
