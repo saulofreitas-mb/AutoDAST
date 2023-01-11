@@ -13,7 +13,7 @@ jobs:
     steps: 
       - uses: actions/checkout@v3
       - name: Setup Python 3.10.9 
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v3
         with: 
           python-version: 3.10.9
       - name: Install python deps
@@ -23,7 +23,7 @@ jobs:
       - name: Get working directory
         run: echo $(PWD)
       #- name: Build Image
-      #  run: docker build -t sample-app .
+      #  run: docker build -t sample-app .  TODO// CHANGE TO DVWA
       - name: Install OWASP ZAP
         run: |
           mkdir -p ./zap

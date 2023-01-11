@@ -21,7 +21,20 @@ while int(zap.spider.status(scanID)) < 100:
     # Poll the status until it completes
     print('Spider progress %: {}'.format(zap.spider.status(scanID)))
     time.sleep(1)
+#AJAX SPIDER
+print('Ajax Spider target {}'.format(target))
+scanID = zap.ajaxSpider.scan(target)
 
+timeout = time.time() + 60*2   # 2 minutes from now
+# Loop until the ajax spider has finished or the timeout has exceeded
+while zap.ajaxSpider.status == 'running':
+    if time.time() > timeout:
+        break
+    print('Ajax Spider status' + zap.ajaxSpider.status)
+    time.sleep(2)
+
+print('Ajax Spider completed')
+ajaxResults = zap.ajaxSpider.results(start=0, count=10)
 
 #Passive scan
 
@@ -43,7 +56,7 @@ time.sleep(5)
 
 while int(zap.ascan.status(active_scan_id)) < 100:
 
-    print ('Active Scan  %: ' + zap.ascan.status())
+    print ('Active Scan  %: ' + zap.ascan.status(active_scan_id))
 
     time.sleep(5)
 
