@@ -16,11 +16,11 @@ zap = ZAP(proxies={'http':'http://127.0.0.1:8090','https':'http://127.0.0.1:8090
 zap.urlopen(target)
 
 #Spidering the target
-#scanID = zap.spider.scan(target)
-#while int(zap.spider.status(scanID)) < 100:
- #   # Poll the status until it completes
-#    print('Spider progress %: {}'.format(zap.spider.status(scanID)))
-#    time.sleep(1)
+scanID = zap.spider.scan(target)
+while int(zap.spider.status(scanID)) < 100:
+# Poll the status until it completes
+    print('Spider progress %: {}'.format(zap.spider.status(scanID)))
+    time.sleep(1)
 
 #AJAX SPIDER
 print('Ajax Spider target {}'.format(target))
@@ -48,6 +48,10 @@ while (int(zap.pscan.records_to_scan) > 0):
 
 
 print('Passive Scan Completo..!')
+print('Hosts: {}'.format(', '.join(zap.core.hosts)))
+print('Alerts: ')
+pprint(zap.core.alerts())
+
 
 #Active Scan
 
