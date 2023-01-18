@@ -50,7 +50,7 @@ while (int(zap.pscan.records_to_scan) > 0):
 print('Passive Scan Completo..!')
 print('Hosts: {}'.format(', '.join(zap.core.hosts)))
 print('Alerts: ')
-pprint(zap.core.alerts())
+print(zap.core.alerts())
 
 
 #Active Scan
