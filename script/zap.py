@@ -9,7 +9,13 @@ import os
 target =  os.environ['TARGET']
 #apikey = '8ij7v7nl0t6d777okrh4kf3icb'  not necessary because api.disablekey=true
 
-
+#print(zap._request(  
+#  zap.base + 'openapi/action/importFile/',  
+#  {'file':'/home/user/openapi.json'}))  
+ 
+print(zap._request(  
+  zap.base + 'openapi/action/importUrl/',  
+  {'url':'https://brokencrystals.com/swagger/json'})) 
 
 zap = ZAP(proxies={'http':'http://127.0.0.1:8090','https':'http://127.0.0.1:8090'})
 
