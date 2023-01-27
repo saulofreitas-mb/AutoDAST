@@ -23,7 +23,7 @@ jobs:
       - name: Get working directory
         run: echo $(PWD)
       #- name: Build Image
-      #  run: docker build -t sample-app .  TODO// CHANGE TO DVWA
+      #  run: docker build -t sample-app .  
       - name: Install OWASP ZAP
         run: |
           mkdir -p ./zap
