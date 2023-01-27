@@ -45,8 +45,8 @@ jobs:
           chmod +x stop-zap
           echo $pwd
           
-      - name: Install API addons
-      	run: ./zap.sh -addoninstall soap -addoninstall openapi    
+      #- name: Install API addons
+      #	run: ./zap.sh -addoninstall soap -addoninstall openapi    
       	
       	
       - name: Run ZAP Daemon
