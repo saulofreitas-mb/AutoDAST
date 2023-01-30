@@ -19,9 +19,9 @@ zap = ZAP(proxies={'http':'http://127.0.0.1:8090','https':'http://127.0.0.1:8090
 
 zap.urlopen(target)
 
-#print(zap._request(  
-#  zap.base + 'openapi/action/importUrl/',  
-#  {'url':'https://brokencrystals.com/swagger/json'})) 
+print(zap._request(  
+  zap.base + 'openapi/action/importUrl/',  
+  {'url':'https://brokencrystals.com/swagger/json'})) 
 
 #Spidering the target
 scanID = zap.spider.scan(target)
@@ -58,7 +58,7 @@ while (int(zap.pscan.records_to_scan) > 0):
 print('Passive Scan Completo..!')
 print('Hosts: {}'.format(', '.join(zap.core.hosts)))
 print('Alerts: ')
-print(zap.core.alerts())
+#print(zap.core.alerts())
 
 
 #Active Scan
