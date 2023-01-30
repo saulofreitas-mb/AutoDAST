@@ -48,7 +48,7 @@ jobs:
       #  run: docker run -d -p 4444:4444 sample-app
       - name: install API Addon
         run: |
-          ./zap.sh -addoninstall soap -addoninstall openapi
+          ./zap/ZAP_2.9.0/zap.sh -addoninstall soap -addoninstall openapi
       
       - name: Run ZAP Daemon
         run: |
