@@ -44,11 +44,11 @@ jobs:
           chmod +x start-gui-zap
           chmod +x stop-zap
           echo $pwd
-      #- name: Run Docker Container
-      #  run: docker run -d -p 4444:4444 sample-app
-      #- name: install API Addon
-      #  run: |
-      #    ./zap/ZAP_2.9.0/zap.sh -daemon -addoninstall soap -addoninstall openapi
+      - name: Run Docker Container
+        run: docker run -d -p 4444:4444 sample-app
+      - name: install API Addon
+        run: |
+          ./zap/ZAP_2.9.0/zap.sh -daemon -addoninstall soap -addoninstall openapi
       
       - name: Run ZAP Daemon
         run: |
@@ -62,10 +62,10 @@ jobs:
           cd ./script/
           python zap.py
 
-      - name: Running docker API scan.
-        run: |
-          docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py \  
-          -t https://www.example.com/openapi.json -f openapi  -z "-configfile /zap/wrk/options.prop"
+      #- name: Running docker API scan.
+      #  run: |
+      #    docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py \  
+      #    -t https://www.example.com/openapi.json -f openapi  -z "-configfile /zap/wrk/options.prop"
 
 
       - name: "Upload Report"
