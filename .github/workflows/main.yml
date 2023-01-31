@@ -65,8 +65,7 @@ jobs:
       - name: Running docker API scan.
         run: |
           docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py \  
-          -t https://www.example.com/openapi.json -f openapi \  
-          -z "-configfile /zap/wrk/options.prop"
+          -t https://www.example.com/openapi.json -f openapi  -z "-configfile /zap/wrk/options.prop"
 
 
       - name: "Upload Report"
