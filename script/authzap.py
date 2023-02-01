@@ -27,7 +27,54 @@ print(zap._request(
   zap.base + 'openapi/action/importUrl/',  
   {'url':'https://brokencrystals.com/swagger/json'})) 
 
+#auth functions
+def set_include_in_context():
+    #exclude_url = 'http://localhost:8090/bodgeit/logout.jsp'
+    include_url = 'http://brokencrystals.*'
+    zap.context.include_in_context(context_name, include_url)
+    #zap.context.exclude_from_context(context_name, exclude_url)
+    print('Configured include and exclude regex(s) in context')
 
+
+def set_logged_in_indicator():
+    logged_in_regex = '\Q<a class="get-started-btn scrollto" href="/">Log out test admin</a>\E'
+    zap.authentication.set_logged_in_indicator(context_id, logged_in_regex)
+    print('Configured logged in indicator regex: ')
+
+
+def set_form_based_auth():
+    login_url = 'https://brokencrystals.com/userlogin'
+    login_request_data = 'username={%username%}&password={%password%}'
+    form_based_config = 'loginUrl=' + urllib.parse.quote(login_url) + '&loginRequestData=' + urllib.parse.quote(login_request_data)
+    zap.authentication.set_authentication_method(context_id, 'formBasedAuthentication', form_based_config)
+    print('Configured form based authentication')
+
+
+def set_user_auth_config():
+    user = 'Test admin'
+    username = 'admin'
+    password = 'admin'
+
+    user_id = zap.users.new_user(context_id, user)
+    user_auth_config = 'user=' + urllib.parse.quote(username) + '&password=' + urllib.parse.quote(password)
+    zap.users.set_authentication_credentials(context_id, user_id, user_auth_config)
+    zap.users.set_user_enabled(context_id, user_id, 'true')
+    zap.forcedUser.set_forced_user(context_id, user_id)
+    zap.forcedUser.set_forced_user_mode_enabled('true')
+    print('User Auth Configured')
+    return user_id
+
+
+def start_spider(user_id):
+    zap.spider.scan_as_user(context_id, user_id, target_url, recurse='true')
+    print('Started Scanning with Authentication')
+
+
+set_include_in_context()
+set_form_based_auth()
+set_logged_in_indicator()
+user_id_response = set_user_auth_config()
+start_spider(user_id_response)
 
 
 

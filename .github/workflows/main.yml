@@ -57,7 +57,7 @@ jobs:
       - name: Run Test Automation with ZAP
         run: |
           cd ./script/
-          python zap.py
+          python authzap.py
 
       #- name: Running docker API scan.
       #  run: |
