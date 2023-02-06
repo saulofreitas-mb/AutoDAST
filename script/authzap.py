@@ -3,7 +3,7 @@ import time
 import requests
 import datetime
 import os
-
+import urllib
 #target url for scan
 
 target =  os.environ['TARGET']
