@@ -38,7 +38,7 @@ def set_include_in_context():
 
 def set_logged_in_indicator():
     logged_in_regex = '\Q<a class="get-started-btn scrollto" href="/">Log out test admin</a>\E'
-    zap.authentication.set_logged_in_indicator(context_id, logged_in_regex)
+    zap.authentication.set_logged_in_indicator(context_name, logged_in_regex)
     print('Configured logged in indicator regex: ')
 
 
@@ -46,7 +46,7 @@ def set_form_based_auth():
     login_url = 'https://brokencrystals.com/userlogin'
     login_request_data = 'username={%username%}&password={%password%}'
     form_based_config = 'loginUrl=' + urllib.parse.quote(login_url) + '&loginRequestData=' + urllib.parse.quote(login_request_data)
-    zap.authentication.set_authentication_method(context_id, 'formBasedAuthentication', form_based_config)
+    zap.authentication.set_authentication_method(context_name, 'formBasedAuthentication', form_based_config)
     print('Configured form based authentication')
 
 
@@ -55,18 +55,18 @@ def set_user_auth_config():
     username = 'admin'
     password = 'admin'
 
-    user_id = zap.users.new_user(context_id, user)
+    user_id = zap.users.new_user(context_name, user)
     user_auth_config = 'user=' + urllib.parse.quote(username) + '&password=' + urllib.parse.quote(password)
-    zap.users.set_authentication_credentials(context_id, user_id, user_auth_config)
-    zap.users.set_user_enabled(context_id, user_id, 'true')
-    zap.forcedUser.set_forced_user(context_id, user_id)
+    zap.users.set_authentication_credentials(context_name, user_id, user_auth_config)
+    zap.users.set_user_enabled(context_name, user_id, 'true')
+    zap.forcedUser.set_forced_user(context_name, user_id)
     zap.forcedUser.set_forced_user_mode_enabled('true')
     print('User Auth Configured')
     return user_id
 
 
 def start_spider(user_id):
-    zap.spider.scan_as_user(context_id, user_id, target_url, recurse='true')
+    zap.spider.scan_as_user(context_name, user_id, target_url, recurse='true')
     print('Started Scanning with Authentication')
 
 
