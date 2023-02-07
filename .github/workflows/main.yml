@@ -46,7 +46,7 @@ jobs:
           chmod +x stop-zap
           echo $pwd
       - name: Run Docker Container
-        run: docker run --rm -it -p 4444:4444 vulnerables/web-dvwa
+        run: docker run --rm -p 4444:4444 vulnerables/web-dvwa
       
       - name: Run ZAP Daemon
         run: |
