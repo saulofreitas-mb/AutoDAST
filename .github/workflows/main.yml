@@ -23,8 +23,8 @@ jobs:
           pip install urllib3
       - name: Get working directory
         run: echo $(PWD)
-      #- name: Build Image
-      #  run: docker build -t sample-app .  TODO// CHANGE TO DVWA
+      - name: Pulling DVWA Image
+        run: docker pull vulnerables/web-dvwa  
       - name: Install OWASP ZAP
         run: |
           mkdir -p ./zap
@@ -45,8 +45,8 @@ jobs:
           chmod +x start-gui-zap
           chmod +x stop-zap
           echo $pwd
-      #- name: Run Docker Container
-      #  run: docker run -d -p 4444:4444 sample-app
+      - name: Run Docker Container
+        run: docker run --rm -it -p 4444:4444 vulnerables/web-dvwa
       
       - name: Run ZAP Daemon
         run: |
@@ -58,13 +58,7 @@ jobs:
       - name: Run Test Automation with ZAP
         run: |
           cd ./script/
-          python authzap.py
-
-      #- name: Running docker API scan.
-      #  run: |
-      #    docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py \  
-      #    -t https://www.example.com/openapi.json -f openapi  -z "-configfile /zap/wrk/options.prop"
-
+          python zap.py
 
       - name: "Upload Report"
         uses: actions/upload-artifact@v1
