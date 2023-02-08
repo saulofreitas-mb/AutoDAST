@@ -6,7 +6,7 @@ import os
 
 #target url for scan
 
-target =  os.environ['TARGET']
+target = "http://127.0.0.1:4444" #os.environ['TARGET']
 context_name = 'Default Context'
 #apikey = '8ij7v7nl0t6d777okrh4kf3icb'  not necessary because api.disablekey=true
 
