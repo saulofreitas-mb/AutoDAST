@@ -6,14 +6,14 @@ import os
 
 #target url for scan
 
-target = "http://127.0.0.1:4444" #os.environ['TARGET']
+target = "http://127.0.0.1:8090" #os.environ['TARGET']
 context_name = 'Default Context'
 #apikey = '8ij7v7nl0t6d777okrh4kf3icb'  not necessary because api.disablekey=true
 
  
 
 
-zap = ZAP(proxies={'http':'http://127.0.0.1:8090','https':'http://127.0.0.1:8090'})
+zap = ZAP(proxies={'http':'http://127.0.0.1:8091','https':'http://127.0.0.1:8091'})
 
 zap.urlopen(target)
 
@@ -23,9 +23,9 @@ zap.urlopen(target)
 #  {'file':'/home/user/openapi.json'}))  
 
 #url approach
-#print(zap._request(  
-#  zap.base + 'openapi/action/importUrl/',  
-#  {'url':'https://brokencrystals.com/swagger/json'})) 
+print(zap._request(  
+  zap.base + 'openapi/action/importUrl/',  
+  {'url':'http://127.0.0.1/swagger/json'})) 
 
 
 
