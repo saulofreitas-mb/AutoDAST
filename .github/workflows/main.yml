@@ -45,18 +45,18 @@ jobs:
           chmod +x start-gui-zap
           chmod +x stop-zap
           echo $pwd
-#        - name: Run Docker Container
-#          run: |
-#             cd ./brokencrystal/
-#             npm ci && npm run build
-# # build client
-#             npm ci --prefix public && npm run build --prefix public
+       - name: Run Docker Container
+          run: |
+             cd ./brokencrystal/
+             npm ci && npm run build
+ # build client
+             npm ci --prefix public && npm run build --prefix public
 
-# #build and start dockers with Postgres DB, nginx and server
-#             docker-compose --file=docker-compose.local.yml up -d
+ #build and start dockers with Postgres DB, nginx and server
+             docker-compose --file=docker-compose.local.yml up -d
 
 # #rebuild dockers
-#             docker-compose --file=docker-compose.local.yml up -d --build
+             docker-compose --file=docker-compose.local.yml up -d --build
      
       
       - name: Run ZAP Daemon
