@@ -46,7 +46,7 @@ jobs:
           chmod +x stop-zap
           echo $pwd
       - name: Run Docker Container
-          run: |
+        run: |
               cd ./brokencrystal/
               npm ci && npm run build
 # build client
