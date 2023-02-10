@@ -23,9 +23,9 @@ zap.urlopen(target)
 #  {'file':'/home/user/openapi.json'}))  
 
 #url approach
-print(zap._request(  
-  zap.base + 'openapi/action/importUrl/',  
-  {'url':'http://127.0.0.1/swagger/json'})) 
+# print(zap._request(  
+#   zap.base + 'openapi/action/importUrl/',  
+#   {'url':'http://127.0.0.1/swagger/json'})) 
 
 
 
