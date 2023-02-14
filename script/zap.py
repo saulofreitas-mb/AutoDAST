@@ -6,7 +6,7 @@ import os
 
 #target url for scan
 
-target = "http://127.0.0.1:8090" #os.environ['TARGET']
+target = "http://$(ip -f inet -o addr show eth0 | awk '{print $4}' | cut -d '/' -f 1):8090" #os.environ['TARGET']
 context_name = 'Default Context'
 #apikey = '8ij7v7nl0t6d777okrh4kf3icb'  not necessary because api.disablekey=true
 
@@ -23,9 +23,9 @@ zap.urlopen(target)
 #  {'file':'/home/user/openapi.json'}))  
 
 #url approach
-# print(zap._request(  
-#   zap.base + 'openapi/action/importUrl/',  
-#   {'url':'http://127.0.0.1/swagger/json'})) 
+print(zap._request(  
+   zap.base + 'openapi/action/importUrl/',  
+   {'url':'http://brokencrystals.com/swagger/json'})) 
 
 
 
