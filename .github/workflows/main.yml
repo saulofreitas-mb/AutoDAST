@@ -23,8 +23,8 @@ jobs:
           pip install urllib3
       - name: Get working directory
         run: echo $(PWD)
-      - name: Pulling DVWA Image
-        run: docker pull vulnerables/web-dvwa  
+      
+      
       - name: Install OWASP ZAP
         run: |
           mkdir -p ./zap
