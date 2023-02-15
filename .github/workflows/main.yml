@@ -25,43 +25,49 @@ jobs:
         run: echo $(PWD)
       
       
-      - name: Install OWASP ZAP
-        run: |
-          mkdir -p ./zap
-          cd ./zap
-          wget -N https://github.com/zaproxy/zaproxy/releases/download/v2.9.0/ZAP_2.9.0_Linux.tar.gz
-          tar -zxvf ZAP_2.9.0_Linux.tar.gz
-          rm ZAP_2.9.0_Linux.tar.gz
-          cd ZAP_2.9.0/plugin
-          wget https://github.com/zaproxy/zap-extensions/releases/download/exportreport-v6/exportreport-alpha-6.zap
-          echo 'export PATH_ZAP_SH=./zap/ZAP_2.9.0/zap.sh' >> ~/.bashrc
-          echo 'export ZAP_PORT=8090' >> ~/.bashrc
-          echo 'sh -c "$PATH_ZAP_SH -daemon -host 0.0.0.0 -port $ZAP_PORT -configfile ./zap/ZAP_2.9.0/conf" > /dev/null & ' > start-zap
-          echo 'sleep 40' >> start-zap
-          echo 'sh -c "$PATH_ZAP_SH -host 0.0.0.0 -port $ZAP_PORT -configfile ./zap/ZAP_2.9.0/conf" > /dev/null & ' > start-gui-zap
-          echo 'sleep 50' >> start-gui-zap
-          echo 'pkill -f zap' > stop-zap
-          chmod +x start-zap
-          chmod +x start-gui-zap
-          chmod +x stop-zap
-          echo $pwd
+      # - name: Install OWASP ZAP
+      #   run: |
+      #     mkdir -p ./zap
+      #     cd ./zap
+      #     wget -N https://github.com/zaproxy/zaproxy/releases/download/v2.9.0/ZAP_2.9.0_Linux.tar.gz
+      #     tar -zxvf ZAP_2.9.0_Linux.tar.gz
+      #     rm ZAP_2.9.0_Linux.tar.gz
+      #     cd ZAP_2.9.0/plugin
+      #     wget https://github.com/zaproxy/zap-extensions/releases/download/exportreport-v6/exportreport-alpha-6.zap
+      #     echo 'export PATH_ZAP_SH=./zap/ZAP_2.9.0/zap.sh' >> ~/.bashrc
+      #     echo 'export ZAP_PORT=8090' >> ~/.bashrc
+      #     echo 'sh -c "$PATH_ZAP_SH -daemon -host 0.0.0.0 -port $ZAP_PORT -configfile ./zap/ZAP_2.9.0/conf" > /dev/null & ' > start-zap
+      #     echo 'sleep 40' >> start-zap
+      #     echo 'sh -c "$PATH_ZAP_SH -host 0.0.0.0 -port $ZAP_PORT -configfile ./zap/ZAP_2.9.0/conf" > /dev/null & ' > start-gui-zap
+      #     echo 'sleep 50' >> start-gui-zap
+      #     echo 'pkill -f zap' > stop-zap
+      #     chmod +x start-zap
+      #     chmod +x start-gui-zap
+      #     chmod +x stop-zap
+      #     echo $pwd
       
-      
-      - name: build broken crystals docker
-        run : docker-compose --file=./brokencrystals-master/docker-compose.local.yml up -d 
+      - name: create docker network
+        run: docker network create zapnet
 
       
-      - name: Run ZAP Daemon
-        run: |
-          ./zap/ZAP_2.9.0/zap.sh -daemon addoninstall soap -addoninstall openapi -host 0.0.0.0 -port 8091 -config api.addrs.addr.name=".*" -config api.addrs.addr.regex=true -config api.disablekey=true > /dev/null &
-      - name: Sleep for a bit
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '20s'
-      - name: Run Test Automation with ZAP
-        run: |
-          cd ./script/
-          python zap.py
+      - name: build broken crystals docker
+        run : docker-compose --file=./brokencrystals-master/docker-compose.local.yml up -d --net zapnet
+
+      - name: run zap2docker  
+        run: docker run -t owasp/zap2docker-weekly zap-baseline.py -t http://$(ip -f inet -o addr show docker0 | awk '{print $4}' | cut -d '/' -f 1):8090  --net zapnet
+
+      # - name: Run ZAP Daemon
+      #   run: |
+      #     ./zap/ZAP_2.9.0/zap.sh -daemon addoninstall soap -addoninstall openapi -host 0.0.0.0 -port 8091 -config api.addrs.addr.name=".*" -config api.addrs.addr.regex=true -config api.disablekey=true > /dev/null &
+      # - name: Sleep for a bit
+      #   uses: jakejarvis/wait-action@master
+      #   with:
+      #     time: '20s'
+
+      # - name: Run Test Automation with ZAP
+      #   run: |
+      #     cd ./script/
+      #     python zap.py
 
       - name: "Upload Report"
         uses: actions/upload-artifact@v1
