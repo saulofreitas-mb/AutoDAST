@@ -6,9 +6,9 @@ import os
 
 #target url for scan
 
-target = "http://$(ip -f inet -o addr show eth0 | awk '{print $4}' | cut -d '/' -f 1):90" #os.environ['TARGET']
+target = "http://web" #os.environ['TARGET']
 context_name = 'Default Context'
-#apikey = '8ij7v7nl0t6d777okrh4kf3icb'  not necessary because api.disablekey=true
+#apikey = ''  not necessary because api.disablekey=true
 
  
 
