@@ -6,7 +6,7 @@ import os
 
 #target url for scan
 
-target = "http://web" #os.environ['TARGET']
+target = "https://brokencrystals.com" #os.environ['TARGET']
 context_name = 'Default Context'
 #apikey = ''  not necessary because api.disablekey=true
 
@@ -23,9 +23,8 @@ zap.urlopen(target)
 #  {'file':'/home/user/openapi.json'}))  
 
 #url approach
-# print(zap._request(  
-#    zap.base + 'openapi/action/importUrl/',  
-#    {'url':'http://brokencrystals.com/swagger/json'})) 
+print(zap._request(  zap.base + 'openapi/action/importUrl/',
+{'url':'http://brokencrystals.com/swagger/json'})) 
 
 
 

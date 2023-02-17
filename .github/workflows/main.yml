@@ -54,16 +54,16 @@ jobs:
           echo $pwd
 
 
-      - name: build broken crystals docker
-        run : docker-compose --file=./brokencrystals-master/docker-compose.local.yml up -d 
+      # - name: build broken crystals docker
+      #   run : docker-compose --file=./brokencrystals-master/docker-compose.local.yml up -d 
 
 
-      - name: Wait for container to start
-        run: sleep 10s  
+      # - name: Wait for container to start
+      #   run: sleep 10s  
 
 
-      - name: Run OWASP ZAP
-        run: docker run -t owasp/zap2docker-stable zap-full-scan.py -t http://web
+      # - name: Run OWASP ZAP
+      #   run: docker run -t owasp/zap2docker-stable zap-full-scan.py -t http://web
 
       - name: Run ZAP Daemon
         run: |
