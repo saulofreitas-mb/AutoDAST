@@ -22,9 +22,9 @@ zap.urlopen(target)
 #  zap.base + 'openapi/action/importFile/',  
 #  {'file':'/home/user/openapi.json'}))  
 
-#url approach
-print(zap._request(  zap.base + 'openapi/action/importUrl/',
-{'url':'http://brokencrystals.com/swagger/json'})) 
+# #url approach
+# print(zap._request(  zap.base + 'openapi/action/importUrl/',
+# {'url':'http://brokencrystals.com/swagger/json'})) 
 
 
 
