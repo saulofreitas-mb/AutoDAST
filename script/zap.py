@@ -6,7 +6,7 @@ import os
 
 #target url for scan
 
-target = "https://brokencrystals.com" #os.environ['TARGET']
+target = "https://www.mercadobitcoin.com.br/blog-criptoloja/" #os.environ['TARGET']
 context_name = 'Default Context'
 #apikey = ''  not necessary because api.disablekey=true
 
