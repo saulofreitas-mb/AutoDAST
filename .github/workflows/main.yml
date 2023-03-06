@@ -67,7 +67,8 @@ jobs:
 
       - name: Run ZAP Daemon
         run: |
-          ./zap/ZAP_2.9.0/zap.sh -daemon addoninstall soap -addoninstall openapi -host 0.0.0.0 -port 8091 -config api.addrs.addr.name=".*" -config api.addrs.addr.regex=true -config api.disablekey=true > /dev/null &
+          ./zap/ZAP_2.9.0/zap.sh -daemon addoninstall soap -addoninstall openapi -host 0.0.0.0 -port 8091 -config api.addrs.addr.name=".*" -config api.addrs.addr.regex=true -config api.key= c8aa4f0d1baa583e80f84be1548dd48892ab769286a8f54661a04b800fab8e86 -config api.secret= c20f765c007631fff176252182e122d2e656c30df43902f3bb6a38b8d14bfde1 > /dev/null &
+          
       - name: Sleep for a bit
         uses: jakejarvis/wait-action@master
         with:

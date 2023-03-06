@@ -6,9 +6,9 @@ import os
 
 #target url for scan
 
-target = "https://www.mercadobitcoin.com.br/blog-criptoloja/" #os.environ['TARGET']
+target =  os.environ['TARGET']
 context_name = 'Default Context'
-#apikey = ''  not necessary because api.disablekey=true
+apikey = "c8aa4f0d1baa583e80f84be1548dd48892ab769286a8f54661a04b800fab8e86"
 
  
 
@@ -22,9 +22,9 @@ zap.urlopen(target)
 #  zap.base + 'openapi/action/importFile/',  
 #  {'file':'/home/user/openapi.json'}))  
 
-# #url approach
-# print(zap._request(  zap.base + 'openapi/action/importUrl/',
-# {'url':'http://brokencrystals.com/swagger/json'})) 
+#url approach
+print(zap._request(  zap.base + 'openapi/action/importUrl/',
+ {'url':'http://brokencrystals.com/swagger/json'})) 
 
 
 
