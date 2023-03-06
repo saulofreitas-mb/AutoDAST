@@ -6,7 +6,7 @@ import os
 
 #target url for scan
 
-target =  os.environ['TARGET']
+target = 'https://brokencrystals.com/' #os.environ['TARGET']
 context_name = 'Default Context'
 apikey = "c8aa4f0d1baa583e80f84be1548dd48892ab769286a8f54661a04b800fab8e86"
 
