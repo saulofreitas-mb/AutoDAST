@@ -3,15 +3,22 @@ import time
 import requests
 import datetime
 import os
+from tenable.was import TenableWASClient
+
+
 
 #target url for scan
 
-target = 'https://brokencrystals.com/' #os.environ['TARGET']
+target = os.environ['TARGET']
+access_key = os.environ['TENABLE_ACCESS_KEY']
+secret_key = os.environ['TENABLE_SECRET_KEY']
 context_name = 'Default Context'
 apikey = "c8aa4f0d1baa583e80f84be1548dd48892ab769286a8f54661a04b800fab8e86"
 
  
+was = TenableWASClient(api_access_key= access_key, api_secret_key= secret_key)
 
+scan = was.create_scan(name='Scan brokencrystals', target=target)
 
 zap = ZAP(proxies={'http':'http://127.0.0.1:8091','https':'http://127.0.0.1:8091'})
 

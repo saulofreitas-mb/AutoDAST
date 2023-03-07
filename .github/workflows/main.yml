@@ -1,4 +1,8 @@
 name: CI
+env:
+  TARGET: ${{secrets.WEBSITE_URL}}
+  TENABLE_ACCESS_KEY: ${{secrets.TENABLE_ACCESS_KEY}}
+  TENABLE_SECRET_KEY: ${{secrets.TENABLE_SECRET_KEY}}
 
 # Controls when the workflow will run
 on:
@@ -31,6 +35,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests python-owasp-zap-v2.4
           pip install urllib3
+          pip install tenable-was-sdk
+
           
       - name: Install OWASP ZAP
         run: |
@@ -67,7 +73,7 @@ jobs:
 
       - name: Run ZAP Daemon
         run: |
-          ./zap/ZAP_2.9.0/zap.sh -daemon addoninstall soap -addoninstall openapi -host 0.0.0.0 -port 8091 -config api.addrs.addr.name=".*" -config api.addrs.addr.regex=true -config api.key= c8aa4f0d1baa583e80f84be1548dd48892ab769286a8f54661a04b800fab8e86 -config api.secret= c20f765c007631fff176252182e122d2e656c30df43902f3bb6a38b8d14bfde1 > /dev/null &
+          ./zap/ZAP_2.9.0/zap.sh -daemon addoninstall soap -addoninstall openapi -host 0.0.0.0 -port 8091 -config api.addrs.addr.name=".*" -config api.addrs.addr.regex=true -config api.key= ${{secrets.TENABLE_ACCESS_KEY}} -config api.secret= ${{secrets.TENABLE_SECRET_KEY}} > /dev/null &
           
       - name: Sleep for a bit
         uses: jakejarvis/wait-action@master
