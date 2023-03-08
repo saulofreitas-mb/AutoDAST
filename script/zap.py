@@ -8,7 +8,7 @@ import os
 
 #target url for scan
 
-target = os.environ['TARGET']
+target = 'https://brokencrystals.com/' #os.environ['TARGET']
 
 context_name = 'Default Context'
 
