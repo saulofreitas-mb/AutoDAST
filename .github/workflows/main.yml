@@ -84,6 +84,7 @@ jobs:
         run: |
           cd ./script/
           python zap.py
+          python pytenable.py
 
       - name: "Upload Report"
         uses: actions/upload-artifact@v1
