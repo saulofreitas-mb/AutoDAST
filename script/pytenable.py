@@ -1,4 +1,6 @@
 from tenable.io import TenableIO
+import os
+
 
 tio = TenableIO (
 access_key = os.environ['TENABLE_ACCESS_KEY'],

@@ -79,13 +79,19 @@ jobs:
         uses: jakejarvis/wait-action@master
         with:
           time: '20s'
-
+          
+      - name: Run Test Automation with TENABLE
+        run: |
+          cd ./script/
+          python pytenable.py
+          
+      
       - name: Run Test Automation with ZAP
         run: |
           cd ./script/
           python zap.py
           python pytenable.py
-
+      
       - name: "Upload Report"
         uses: actions/upload-artifact@v1
         with:
