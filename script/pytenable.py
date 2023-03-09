@@ -3,6 +3,8 @@ import os
 
 
 tio = TenableIO (
+vendor= 'Saulo Freitas',
+product='scan ',    
 access_key = os.environ['TENABLE_ACCESS_KEY'],
 secret_key = os.environ['TENABLE_SECRET_KEY'])
 
