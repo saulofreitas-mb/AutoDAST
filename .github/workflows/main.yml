@@ -73,8 +73,8 @@ jobs:
 
       - name: Run ZAP Daemon
         run: |
-          ./zap/ZAP_2.9.0/zap.sh -daemon addoninstall soap -addoninstall openapi -host 0.0.0.0 -port 8091 -config api.addrs.addr.name=".*" -config api.addrs.addr.regex=true -config api.key= ${{secrets.TENABLE_ACCESS_KEY}} -config api.secret= ${{secrets.TENABLE_SECRET_KEY}} > /dev/null &
-          
+          ./zap/ZAP_2.9.0/zap.sh -daemon addoninstall soap -addoninstall openapi -host 0.0.0.0 -port 8091 -config api.addrs.addr.name=".*" -config api.addrs.addr.regex=true -config api.disablekey=true > /dev/null &
+    
       - name: Sleep for a bit
         uses: jakejarvis/wait-action@master
         with:
