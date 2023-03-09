@@ -36,6 +36,8 @@ jobs:
           pip install requests python-owasp-zap-v2.4
           pip install urllib3
           pip install pytenable
+          pip install virtualenv
+          pip install tenable_io
 
           
       - name: Install OWASP ZAP
